@@ -9,16 +9,16 @@ default: fibseq
 .PHONY: default clean qemu
 
 fibseq: $(objects)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -g -o $@ $^
 
 fib.o: fib.s
 fibseq.o: fibseq.c
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -g -o $@ $<
 
 %.o: %.s
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -g -o $@ $<
 
 clean:
 	rm -f $(objects) fibseq

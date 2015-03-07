@@ -13,31 +13,35 @@ fibonacci:
 	@ PROLOG
 	push {r3, r4, r5, lr}
 
-	@ R4 = R0 - 0 (update flags)
-	@ if(R0 <= 0) goto .L3 (which returns 0)
+   @ previous = -1
+   @ result = 1
+   @ i = 0
+   @ sum = 0
 
-	@ Compare R4 wtih 1
-	@ If R4 == 1 goto .L4 (which returns 1)
+   MOV r3, #-1
+   MOV r4, #1
+   MOV r5, #0 
+   MOV r6, #0
+   
+   @ for(i=0 i<=x i++)
+   @ sum = previous + result
+   @ previous = result
+   @ result = sum
 
-	@ R0 = R4 - 1
-	@ Recursive call to fibonacci with R4 - 1 as parameter
+.for:
 
-	@ R5 = R0
-	@ R0 = R4 - 2
-	@ Recursive call to fibonacci with R4 - 2 as parameter
+   ADD r6, r3, r4
+   MOV r3, r4
+   MOV r4, r6
+   ADD r5, r5, #1
 
-	@ R0 = R5 + R0 (update flags)
+   cmp r5, r0
+   ble .for
 
+   mov r0, r4
 	pop {r3, r4, r5, pc}		@EPILOG
 
 	@ END CODE MODIFICATION
-.L3:
-	mov r0, #0			@ R0 = 0
-	pop {r3, r4, r5, pc}		@ EPILOG
-
-.L4:
-	mov r0, #1			@ R0 = 1
-	pop {r3, r4, r5, pc}		@ EPILOG
 
 	.size fibonacci, .-fibonacci
 	.end
